@@ -47,3 +47,7 @@ This project presents the source material through five live experiences:
 - `Comparative Guide`: live crosswalk route comparing Anthropic and OpenAI directly, including a breadth-vs-depth matrix
 
 The build copies `index.html` into each route folder so direct visits to pretty URLs like `/summary` or `/decision` work on GitHub Pages.
+
+## License
+
+The app code is released under the MIT License. The referenced Anthropic and OpenAI source materials remain owned by their respective authors; this project provides original summaries, comparisons, and synthesis.
