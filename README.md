@@ -1,10 +1,10 @@
-# Building Effective AI Agents
+# AI Agents Guide
 
 An interactive guide that synthesizes Anthropic's and OpenAI's guidance on building agents into a smaller set of decision-oriented learning experiences.
 
 ## Live site
 
-- Public site: [better-software-foundation.com](https://better-software-foundation.com)
+- Deployment target: GitHub Pages from the personal repository.
 
 ## Routes
 
@@ -14,6 +14,7 @@ An interactive guide that synthesizes Anthropic's and OpenAI's guidance on build
 - `/decision` Decision framework
 - `/foundations` Foundations & Guardrails
 - `/compare` Comparative Guide
+- `/glossary` Glossary
 
 ## Local development
 
@@ -45,4 +46,4 @@ This project presents the source material through five live experiences:
 - `Foundations & Guardrails`: live implementation-focused route drawing more heavily from OpenAI
 - `Comparative Guide`: live crosswalk route comparing Anthropic and OpenAI directly, including a breadth-vs-depth matrix
 
-`vercel.json` includes a rewrite so direct visits to routes like `/summary` or `/decision` load correctly.
+The build copies `index.html` into each route folder so direct visits to pretty URLs like `/summary` or `/decision` work on GitHub Pages.

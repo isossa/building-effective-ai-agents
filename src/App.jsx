@@ -1,5 +1,4 @@
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
 import SourceBadge from "./components/SourceBadge";
 import {
   routeArchitecture,
@@ -76,7 +75,7 @@ function HomePage() {
   return (
     <main className="shell home-shell">
       <section className="hero">
-        <p className="eyebrow">Better Software Foundation</p>
+        <p className="eyebrow">AI Agents Guide</p>
         <h1>Building Effective AI Agents</h1>
         <p className="hero-copy">
           An interactive guide to Anthropic&apos;s and OpenAI&apos;s frameworks
@@ -199,7 +198,7 @@ function SiteNav() {
     <header className="site-nav">
       <div className="nav-inner">
         <Link className="brand" to="/">
-          Better Software Foundation
+          AI Agents Guide
         </Link>
         <nav className="nav-links" aria-label="Primary">
           <Link className={location.pathname === "/" ? "active" : ""} to="/">
@@ -234,7 +233,6 @@ export default function App() {
         <Route path="/compare" element={<ComparativeGuide />} />
         <Route path="/glossary" element={<GlossaryPage />} />
       </Routes>
-      <Analytics />
     </div>
   );
 }
