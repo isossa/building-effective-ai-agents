@@ -4,7 +4,7 @@ An interactive guide that synthesizes Anthropic's and OpenAI's guidance on build
 
 ## Live site
 
-- Deployment target: GitHub Pages from the personal repository.
+- Public site: [isossa.github.io/building-effective-ai-agents](https://isossa.github.io/building-effective-ai-agents/)
 
 ## Routes
 
