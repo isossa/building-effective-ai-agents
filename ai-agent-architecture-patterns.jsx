@@ -356,7 +356,7 @@ export default function ArchitecturePatterns() {
               ))}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, marginTop: 20 }}>
               <div>
                 <h3 style={{ fontFamily: "'Helvetica Neue', sans-serif", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "#2D6A4F", margin: "0 0 10px" }}>
                   When to Use
@@ -439,7 +439,7 @@ export default function ArchitecturePatterns() {
           </div>
 
           {comparePatterns.length === 2 && (
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
               {comparePatterns.map((p, idx) => {
                 const other = comparePatterns[idx === 0 ? 1 : 0];
                 return (
@@ -461,7 +461,7 @@ export default function ArchitecturePatterns() {
           )}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 }}>
           <div style={{ padding: 22, background: "#fff", borderRadius: 12, border: "1px solid #E7E0D9" }}>
             <h2 style={{ margin: "0 0 10px", fontSize: 20, color: "#1a1a1a" }}>How the Guides Relate</h2>
             <div style={{ marginBottom: 12, padding: "12px 14px", borderRadius: 8, background: "#F8F6F1" }}>

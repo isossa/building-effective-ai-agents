@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import SourceBadge from "./components/SourceBadge";
 import {
@@ -186,20 +187,75 @@ function HomePage() {
 
 function SiteNav() {
   const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isHome = location.pathname === "/";
   const activeRoute = routeByPath[location.pathname];
   const activeGroup = navGroups.find((group) => group.paths.includes(location.pathname));
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+    document
+      .querySelectorAll(".site-nav details[open]")
+      .forEach((item) => item.removeAttribute("open"));
+  }, [location.pathname]);
+
   return (
     <header className="site-nav">
       <div className="nav-inner">
-        <Link className="brand" to="/">
-          AI Agents Guide
-        </Link>
-        <nav className="nav-links" aria-label="Primary">
+        <div className="nav-top">
+          <Link className="brand" to="/">
+            AI Agents Guide
+          </Link>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+        <nav
+          id="primary-navigation"
+          className={`nav-links${isMenuOpen ? " open" : ""}`}
+          aria-label="Primary"
+        >
           <Link className={location.pathname === "/" ? "active" : ""} to="/">
             Home
           </Link>
+          <details className="about-menu">
+            <summary>About</summary>
+            <div className="about-panel">
+              <p className="explore-group-label">About This Project</p>
+              <p className="about-panel-text">
+                This project brings together Anthropic&apos;s and OpenAI&apos;s
+                guidance on building agents into one interactive reference for
+                moving from core concepts to architecture choices,
+                implementation foundations, and source comparison.
+              </p>
+              <div className="about-panel-grid">
+                <div>
+                  <p className="explore-group-label">Best For</p>
+                  <p className="about-panel-text">
+                    Engineering leaders, product teams, technical educators,
+                    and builders evaluating agent design choices.
+                  </p>
+                </div>
+                <div>
+                  <p className="explore-group-label">Sources</p>
+                  <div className="about-panel-sources">
+                    <SourceBadge sourceId="anthropic" />
+                    <SourceBadge sourceId="openai" />
+                    <SourceBadge sourceId="synthesis" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
           <details className="explore-menu">
             <summary className={activeGroup ? "active" : ""}>
               Explore
@@ -229,35 +285,6 @@ function SiteNav() {
                   </div>
                 </section>
               ))}
-            </div>
-          </details>
-          <details className="about-menu">
-            <summary>About</summary>
-            <div className="about-panel">
-              <p className="explore-group-label">About This Project</p>
-              <p className="about-panel-text">
-                This project brings together Anthropic&apos;s and OpenAI&apos;s
-                guidance on building agents into one interactive reference for
-                moving from core concepts to architecture choices,
-                implementation foundations, and source comparison.
-              </p>
-              <div className="about-panel-grid">
-                <div>
-                  <p className="explore-group-label">Best For</p>
-                  <p className="about-panel-text">
-                    Engineering leaders, product teams, technical educators,
-                    and builders evaluating agent design choices.
-                  </p>
-                </div>
-                <div>
-                  <p className="explore-group-label">Sources</p>
-                  <div className="about-panel-sources">
-                    <SourceBadge sourceId="anthropic" />
-                    <SourceBadge sourceId="openai" />
-                    <SourceBadge sourceId="synthesis" />
-                  </div>
-                </div>
-              </div>
             </div>
           </details>
           <Link

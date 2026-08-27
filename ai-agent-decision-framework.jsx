@@ -543,7 +543,7 @@ export default function DecisionFramework() {
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
               <div style={{ padding: "16px 18px", background: "#FAFAF7", borderRadius: 8 }}>
                 <p style={{ margin: "0 0 8px", fontFamily: "'Helvetica Neue', sans-serif", fontSize: 11, letterSpacing: 1.3, textTransform: "uppercase", color: "#888" }}>
                   What To Do Next

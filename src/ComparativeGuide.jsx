@@ -155,10 +155,11 @@ export default function ComparativeGuide() {
         </div>
 
         {activeTab === "matrix" && (
-          <div style={{ display: "grid", gap: 20 }}>
+          <div style={{ display: "grid", gap: 20, minWidth: 0 }}>
             <div
               style={{
                 padding: 22,
+                minWidth: 0,
                 background: "#fff",
                 borderRadius: 12,
                 border: "1px solid #E0DCD6",
@@ -200,6 +201,7 @@ export default function ComparativeGuide() {
             <div
               style={{
                 padding: 22,
+                minWidth: 0,
                 background: "#fff",
                 borderRadius: 12,
                 border: "1px solid #E0DCD6",
@@ -276,7 +278,7 @@ export default function ComparativeGuide() {
                     <h3 style={{ margin: 0, fontSize: 18 }}>{item.concept}</h3>
                     <SourceBadge sourceId={item.relationship === "Strong alignment" ? "both" : "synthesis"} />
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 12 }}>
                     <div>
                       <p style={{ margin: "0 0 4px", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: "#888", fontFamily: "'Helvetica Neue', sans-serif" }}>
                         Anthropic
