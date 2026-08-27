@@ -19,19 +19,36 @@ const quickPoints = [
   "Organized around architecture, implementation, decision-making, and comparison",
 ];
 
-const visitorGuidance = [
+const liveExperiences = routeArchitecture.filter((item) => item.status === "live");
+const sourceList = [sourceRegistry.anthropic, sourceRegistry.openai];
+const routeByPath = Object.fromEntries(routeArchitecture.map((item) => [item.path, item]));
+
+const navGroups = [
   {
-    label: "Suggested Path",
-    text: "Start with the summary, use the decision framework to assess the workflow, then move into patterns, foundations, and comparison.",
+    label: "Start",
+    description: "Get oriented and qualify the workflow.",
+    paths: ["/summary", "/decision"],
   },
   {
-    label: "Best For",
-    text: "Engineering leaders, product teams, technical educators, and builders evaluating agent design choices.",
+    label: "Build",
+    description: "Choose architecture and implementation foundations.",
+    paths: ["/patterns", "/foundations"],
+  },
+  {
+    label: "Reference",
+    description: "Compare sources and clarify terms.",
+    paths: ["/compare", "/glossary"],
   },
 ];
 
-const liveExperiences = routeArchitecture.filter((item) => item.status === "live");
-const sourceList = [sourceRegistry.anthropic, sourceRegistry.openai];
+const recommendedPath = [
+  "/summary",
+  "/decision",
+  "/patterns",
+  "/foundations",
+  "/compare",
+  "/glossary",
+];
 
 function PlannedExperiencePage({ title, summary, plannedSections, sourceIds }) {
   return (
@@ -74,82 +91,59 @@ function PlannedExperiencePage({ title, summary, plannedSections, sourceIds }) {
 function HomePage() {
   return (
     <main className="shell home-shell">
-      <section className="hero">
-        <p className="eyebrow">AI Agents Guide</p>
-        <h1>Building Effective AI Agents</h1>
-        <p className="hero-copy">
-          An interactive guide to Anthropic&apos;s and OpenAI&apos;s frameworks
-          for building agents, with focused paths for architecture,
-          implementation, safety, and comparison.
-        </p>
-        <div className="hero-actions">
-          <Link className="primary-link" to="/summary">
-            Start with the summary
-          </Link>
+      <section className="hero home-hero">
+        <div className="home-hero-title">
+          <p className="eyebrow">AI Agents Guide</p>
+          <h1>Building Effective AI Agents</h1>
+        </div>
+        <div className="home-hero-content">
+          <p className="hero-copy">
+            An interactive guide to Anthropic&apos;s and OpenAI&apos;s frameworks
+            for building agents, with focused paths for architecture,
+            implementation, safety, and comparison.
+          </p>
+          <div className="hero-actions">
+            <Link className="primary-link" to="/summary">
+              Start with the summary
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="highlights-panel">
-        {quickPoints.map((item) => (
+      <section className="highlights-panel" aria-label="Guide highlights">
+        {quickPoints.map((item, index) => (
           <div key={item} className="highlight-pill">
-            {item}
+            <span>{index + 1}</span>
+            <p>{item}</p>
           </div>
         ))}
       </section>
 
-      <section className="card-grid">
-        {routeArchitecture.map((item) => (
-          <article key={item.path} className="experience-card">
-            <p className="card-kicker">{item.title}</p>
-            <p className="card-text">{item.description}</p>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 8,
-                marginTop: 14,
-                marginBottom: 18,
-              }}
-            >
-              {item.sourceIds.map((sourceId) => (
-                <SourceBadge key={sourceId} sourceId={sourceId} />
-              ))}
-            </div>
-            {item.status === "live" ? (
-              <Link className="card-link" to={item.path}>
-                Open experience
+      <section className="path-overview" aria-labelledby="path-overview-title">
+        <div>
+          <p className="panel-label">Recommended Path</p>
+          <h2 id="path-overview-title">Move from quick context to confident design.</h2>
+        </div>
+        <div className="path-overview-steps path-overview-steps-vertical">
+          {recommendedPath.map((path, index) => {
+            const item = routeByPath[path];
+            return (
+              <Link key={path} className="path-step-card" to={path}>
+                <span className="path-step-summary">
+                  <span className="path-step-number">{index + 1}</span>
+                  <span className="path-step-title">{item.title}</span>
+                </span>
+                <span className="path-step-detail">
+                  <span>{item.description}</span>
+                  <span className="path-step-sources">
+                    {item.sourceIds.map((sourceId) => (
+                      <SourceBadge key={`${item.path}-${sourceId}`} sourceId={sourceId} />
+                    ))}
+                  </span>
+                </span>
               </Link>
-            ) : (
-              <Link className="card-link" to={item.path}>
-                View roadmap preview
-              </Link>
-            )}
-          </article>
-        ))}
-      </section>
-
-      <section className="guidance-panel">
-        {visitorGuidance.map((item) => (
-          <div key={item.label}>
-            <p className="panel-label">{item.label}</p>
-            <p className="panel-text">{item.text}</p>
-          </div>
-        ))}
-      </section>
-
-      <section className="source-panel">
-        <p className="panel-label">About This Project</p>
-        <p className="panel-text">
-          This project brings together Anthropic&apos;s and OpenAI&apos;s
-          guidance on building agents into one interactive reference. It is
-          designed to help readers move from core concepts to architecture
-          choices, implementation foundations, and direct comparison between
-          the two sources.
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 14 }}>
-          <SourceBadge sourceId="anthropic" />
-          <SourceBadge sourceId="openai" />
-          <SourceBadge sourceId="synthesis" />
+            );
+          })}
         </div>
       </section>
 
@@ -193,6 +187,8 @@ function HomePage() {
 function SiteNav() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const activeRoute = routeByPath[location.pathname];
+  const activeGroup = navGroups.find((group) => group.paths.includes(location.pathname));
 
   return (
     <header className="site-nav">
@@ -204,18 +200,100 @@ function SiteNav() {
           <Link className={location.pathname === "/" ? "active" : ""} to="/">
             Home
           </Link>
-          {liveExperiences.map((item) => (
-            <Link
-              key={item.path}
-              className={location.pathname === item.path ? "active" : ""}
-              to={item.path}
-            >
-              {item.title}
-            </Link>
-          ))}
+          <details className="explore-menu">
+            <summary className={activeGroup ? "active" : ""}>
+              Explore
+              {activeGroup ? <span>{activeGroup.label}</span> : null}
+            </summary>
+            <div className="explore-panel">
+              {navGroups.map((group) => (
+                <section key={group.label} className="explore-group">
+                  <div>
+                    <p className="explore-group-label">{group.label}</p>
+                    <p className="explore-group-description">{group.description}</p>
+                  </div>
+                  <div className="explore-group-links">
+                    {group.paths.map((path) => {
+                      const item = routeByPath[path];
+                      return (
+                        <Link
+                          key={path}
+                          className={location.pathname === path ? "active" : ""}
+                          to={path}
+                        >
+                          <span>{item.title}</span>
+                          <small>{item.role}</small>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </details>
+          <details className="about-menu">
+            <summary>About</summary>
+            <div className="about-panel">
+              <p className="explore-group-label">About This Project</p>
+              <p className="about-panel-text">
+                This project brings together Anthropic&apos;s and OpenAI&apos;s
+                guidance on building agents into one interactive reference for
+                moving from core concepts to architecture choices,
+                implementation foundations, and source comparison.
+              </p>
+              <div className="about-panel-grid">
+                <div>
+                  <p className="explore-group-label">Best For</p>
+                  <p className="about-panel-text">
+                    Engineering leaders, product teams, technical educators,
+                    and builders evaluating agent design choices.
+                  </p>
+                </div>
+                <div>
+                  <p className="explore-group-label">Sources</p>
+                  <div className="about-panel-sources">
+                    <SourceBadge sourceId="anthropic" />
+                    <SourceBadge sourceId="openai" />
+                    <SourceBadge sourceId="synthesis" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+          <Link
+            className={location.pathname === "/decision" ? "active" : ""}
+            to="/decision"
+          >
+            Decide
+          </Link>
+          <Link
+            className={location.pathname === "/patterns" ? "active" : ""}
+            to="/patterns"
+          >
+            Patterns
+          </Link>
         </nav>
       </div>
-      {isHome && <div className="nav-divider" />}
+      {!isHome && activeRoute ? (
+        <nav className="path-strip" aria-label="Recommended path">
+          {recommendedPath.map((path, index) => {
+            const item = routeByPath[path];
+            return (
+              <Link
+                key={path}
+                className={location.pathname === path ? "active" : ""}
+                to={path}
+                aria-current={location.pathname === path ? "page" : undefined}
+              >
+                <span>{index + 1}</span>
+                {item.title}
+              </Link>
+            );
+          })}
+        </nav>
+      ) : (
+        <div className="nav-divider" />
+      )}
     </header>
   );
 }
